@@ -14,6 +14,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const expensesApi = require("./routes/expenses");
 expensesApi(app);
 
+// Error Middlewares
+const {
+  logErrors,
+  errorHandler,
+} = require("./utils/middleware/errorsHandler.js");
+app.use(logErrors);
+app.use(errorHandler);
+
 app.listen(config.port, function () {
   console.log(`Listening http://localhost:${config.port}`);
 });

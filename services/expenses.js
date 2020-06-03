@@ -1,34 +1,39 @@
-const { mockDocument } = require("../utils/mocks/mock");
+const ExpenseModel = require("../models/expense");
+const MongoLib = require("../lib/mongo");
 
 class ExpensesService {
+  constructor() {
+    (this.model = ExpenseModel), (this.mongoose = new MongoLib());
+  }
+
   async getExpenses() {
-    console.log("getExpenses");
-    const expenses = await Promise.resolve(mockDocument);
+    const query = {};
+    const expenses = await this.mongoose.getAll(this.model, query);
     return expenses || [];
   }
 
-  async getExpense() {
-    console.log("getExpense");
-    const expense = await Promise.resolve(mockDocument[0]);
+  async getExpense({ expenseId }) {
+    const expense = await this.mongoose.get(this.model, expenseId);
     return expense || [];
   }
 
-  async createExpense() {
-    console.log("createExpense");
-    const createdExpenseId = await Promise.resolve(mockDocument[0]._id);
-    return createdExpenseId || [];
+  async createExpense({ expense }) {
+    const createdExpenseId = await this.mongoose.create(this.model, expense);
+    return createdExpenseId;
   }
 
-  async updateExpense() {
-    console.log("createExpense");
-    const updatedExpenseId = await Promise.resolve(mockDocument[0]._id);
-    return updatedExpenseId || [];
+  async updateExpense({ expenseId, expense }) {
+    const updatedExpenseId = await this.mongoose.update(
+      this.model,
+      expenseId,
+      expense
+    );
+    return updatedExpenseId;
   }
 
-  async deleteExpense() {
-    console.log("deleteExpense");
-    const deletedExpenseId = await Promise.resolve(mockDocument[0]._id);
-    return deletedExpenseId || [];
+  async deleteExpense({ expenseId }) {
+    const deletedExpenseId = await this.mongoose.delete(this.model, expenseId);
+    return deletedExpenseId;
   }
 }
 

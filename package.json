@@ -1,0 +1,30 @@
+{
+  "name": "expense-tracker-server",
+  "version": "1.0.0",
+  "description": "Server side",
+  "main": "index.js",
+  "scripts": {
+    "dev": "DEBUG=app:* nodemon index",
+    "start": "NODE_ENV=production node index",
+    "inspect": "node --inspect index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegocaminor/expense-tracker-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegocaminor/expense-tracker-server/issues"
+  },
+  "homepage": "https://github.com/diegocaminor/expense-tracker-server#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}

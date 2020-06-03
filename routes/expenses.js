@@ -1,13 +1,16 @@
 const express = require("express");
-const { mockDocument } = require("../utils/mocks/mock");
+const ExpensesService = require("../services/expenses");
 
+// Routes that are responsible for communicating with the expense services
 function expensesApi(app) {
   const router = express.Router();
   app.use("/api/expenses", router);
 
+  const expensesService = new ExpensesService();
+
   router.get("/", async function (req, res, next) {
     try {
-      const expenses = await Promise.resolve(mockDocument);
+      const expenses = await expensesService.getExpenses();
       res.status(200).json({
         data: expenses,
         message: "expenses listed",
@@ -19,7 +22,8 @@ function expensesApi(app) {
 
   router.get("/:expenseId", async function (req, res, next) {
     try {
-      const expense = await Promise.resolve(mockDocument[0]);
+      const { expenseId } = req.params;
+      const expense = await expensesService.getExpense({ expenseId });
       res.status(200).json({
         data: expense,
         message: "expense retrieve",
@@ -31,7 +35,8 @@ function expensesApi(app) {
 
   router.post("/", async function (req, res, next) {
     try {
-      const createdExpenseId = await Promise.resolve(mockDocument[0]._id);
+      const { body: expense } = req;
+      const createdExpenseId = await expensesService.createExpense({ expense });
       res.status(201).json({
         data: createdExpenseId,
         message: "expense created",
@@ -43,7 +48,12 @@ function expensesApi(app) {
 
   router.put("/:expenseId", async function (req, res, next) {
     try {
-      const updatedExpenseId = await Promise.resolve(mockDocument[0]._id);
+      const { expenseId } = req.params;
+      const { body: expense } = req;
+      const updatedExpenseId = await expensesService.updateExpense({
+        expenseId,
+        expense,
+      });
       res.status(200).json({
         data: updatedExpenseId,
         message: "expense updated",
@@ -55,7 +65,10 @@ function expensesApi(app) {
 
   router.delete("/:expenseId", async function (req, res, next) {
     try {
-      const deletedExpenseId = await Promise.resolve(mockDocument[0]._id);
+      const { expenseId } = req.params;
+      const deletedExpenseId = await await expensesService.deleteExpense({
+        expenseId,
+      });
       res.status(200).json({
         data: deletedExpenseId,
         message: "expense deleted",

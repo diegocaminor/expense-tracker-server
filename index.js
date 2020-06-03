@@ -10,6 +10,10 @@ const { config } = require("./config/index");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Routes
+const expensesApi = require("./routes/expenses");
+expensesApi(app);
+
 app.listen(config.port, function () {
   console.log(`Listening http://localhost:${config.port}`);
 });

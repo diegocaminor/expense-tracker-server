@@ -1,7 +1,7 @@
 const express = require("express");
 const ExpensesService = require("../services/expenses");
 
-// Routes that are responsible for communicating with the expense services
+// Routes that are responsible for communicating with the expenses services
 function expensesApi(app) {
   const router = express.Router();
   app.use("/api/expenses", router);

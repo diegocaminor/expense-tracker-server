@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
+// Import routes
+const expensesApi = require("./routes/expenses");
+const categoriesApi = require("./routes/categories");
+
 // Environment Variables
 const { config } = require("./config/index");
 
@@ -11,8 +15,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-const expensesApi = require("./routes/expenses");
 expensesApi(app);
+categoriesApi(app);
 
 // Error Middlewares
 const {

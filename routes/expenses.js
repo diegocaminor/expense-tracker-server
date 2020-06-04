@@ -1,4 +1,5 @@
 const express = require("express");
+var ObjectId = require("mongoose").Types.ObjectId;
 const ExpensesService = require("../services/expenses");
 
 // Routes that are responsible for communicating with the expenses services
@@ -23,6 +24,7 @@ function expensesApi(app) {
   router.get("/:expenseId", async function (req, res, next) {
     try {
       const { expenseId } = req.params;
+      if (!ObjectId.isValid(expenseId)) throw new Error("Invalid id");
       const expense = await expensesService.getExpense({ expenseId });
       res.status(200).json({
         data: expense,

@@ -1,4 +1,5 @@
 const express = require("express");
+var ObjectId = require("mongoose").Types.ObjectId;
 const CategoriesService = require("../services/categories");
 
 // Routes that are responsible for communicating with the categories services
@@ -22,6 +23,7 @@ function categoriesApi(app) {
   router.get("/:categoryId", async function (req, res, next) {
     try {
       const { categoryId } = req.params;
+      if (!ObjectId.isValid(categoryId)) throw new Error("Invalid id");
       const category = await categoriesService.getCategory({ categoryId });
       res.status(200).json({
         data: category,

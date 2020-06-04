@@ -10,6 +10,7 @@ const expensesApi = require("./routes/expenses");
 const categoriesApi = require("./routes/categories");
 const incomesApi = require("./routes/incomes");
 const usersApi = require("./routes/users");
+const notFoundHandler = require("./utils/middleware/notFoundHandler.js");
 
 // Environment Variables
 const { config } = require("./config/index");
@@ -26,12 +27,17 @@ categoriesApi(app);
 incomesApi(app);
 usersApi(app);
 
+// 404 error
+app.use(notFoundHandler);
+
 // Error Middlewares
 const {
   logErrors,
+  wrapErrors,
   errorHandler,
 } = require("./utils/middleware/errorsHandler.js");
 app.use(logErrors);
+app.use(wrapErrors);
 app.use(errorHandler);
 
 app.listen(config.port, function () {

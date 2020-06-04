@@ -20,9 +20,11 @@
   },
   "homepage": "https://github.com/diegocaminor/expense-tracker-server#readme",
   "devDependencies": {
+    "chalk": "^4.0.0",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "@hapi/boom": "^9.1.0",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

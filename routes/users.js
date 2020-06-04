@@ -1,4 +1,5 @@
 const express = require("express");
+var ObjectId = require("mongoose").Types.ObjectId;
 const UsersService = require("../services/users");
 
 // Routes that are responsible for communicating with the users services
@@ -22,6 +23,7 @@ function usersApi(app) {
   router.get("/:userId", async function (req, res, next) {
     try {
       const { userId } = req.params;
+      if (!ObjectId.isValid(userId)) throw new Error("Invalid id");
       const user = await usersService.getUser({ userId });
       res.status(200).json({
         data: user,

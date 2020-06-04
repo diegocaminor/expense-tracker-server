@@ -1,14 +1,15 @@
 const express = require("express");
-const { mockDocument } = require("../utils/mocks/mock");
+const IncomesService = require("../services/incomes");
 
 // Routes that are responsible for communicating with the incomes services
 function incomesApi(app) {
   const router = express.Router();
   app.use("/api/incomes", router);
+  const incomesService = new IncomesService();
 
   router.get("/", async function (req, res, next) {
     try {
-      const incomes = await Promise.resolve(mockDocument);
+      const incomes = await incomesService.getIncomes();
       res.status(200).json({
         data: incomes,
         message: "incomes listed",
@@ -21,7 +22,7 @@ function incomesApi(app) {
   router.get("/:incomeId", async function (req, res, next) {
     try {
       const { incomeId } = req.params;
-      const income = await Promise.resolve(mockDocument[0]);
+      const income = await incomesService.getIncome({ incomeId });
       res.status(200).json({
         data: income,
         message: "income retrieve",
@@ -34,9 +35,9 @@ function incomesApi(app) {
   router.post("/", async function (req, res, next) {
     try {
       const { body: income } = req;
-      console.log("ñañaññaña");
-      console.log(income);
-      const createdIncomeId = await Promise.resolve(mockDocument[0]._id);
+      const createdIncomeId = await incomesService.createIncome({
+        income,
+      });
       res.status(201).json({
         data: createdIncomeId,
         message: "income created",
@@ -50,7 +51,10 @@ function incomesApi(app) {
     try {
       const { incomeId } = req.params;
       const { body: income } = req;
-      const updatedIncomeId = await Promise.resolve(mockDocument[0]._id);
+      const updatedIncomeId = await incomesService.updateIncome({
+        incomeId,
+        income,
+      });
       res.status(200).json({
         data: updatedIncomeId,
         message: "income updated",
@@ -63,7 +67,9 @@ function incomesApi(app) {
   router.delete("/:incomeId", async function (req, res, next) {
     try {
       const { incomeId } = req.params;
-      const deletedIncomeId = await Promise.resolve(mockDocument[0]._id);
+      const deletedIncomeId = await incomesService.deleteIncome({
+        incomeId,
+      });
       res.status(200).json({
         data: deletedIncomeId,
         message: "income deleted",

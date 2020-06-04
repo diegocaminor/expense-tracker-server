@@ -1,33 +1,38 @@
-const { mockDocument } = require("../utils/mocks/mock");
+const IncomeModel = require("../models/income");
+const MongoLib = require("../lib/mongo");
 
 class IncomesService {
+  constructor() {
+    (this.model = IncomeModel), (this.mongoose = new MongoLib());
+  }
+
   async getIncomes() {
-    console.log("getIncomes");
-    const incomes = await Promise.resolve(mockDocument);
+    const query = {};
+    const incomes = await this.mongoose.getAll(this.model, query);
     return incomes || [];
   }
 
-  async getIncome() {
-    console.log("getIncome");
-    const income = await Promise.resolve(mockDocument[0]);
+  async getIncome({ incomeId }) {
+    const income = await this.mongoose.get(this.model, incomeId);
     return income || [];
   }
 
-  async createIncome() {
-    console.log("createIncome");
-    const createdIncomeId = await Promise.resolve(mockDocument[0]._id);
+  async createIncome({ income }) {
+    const createdIncomeId = await this.mongoose.create(this.model, income);
     return createdIncomeId || [];
   }
 
-  async updateIncome() {
-    console.log("updateIncome");
-    const updatedIncomeId = await Promise.resolve(mockDocument[0]._id);
+  async updateIncome({ incomeId, income }) {
+    const updatedIncomeId = await this.mongoose.update(
+      this.model,
+      incomeId,
+      income
+    );
     return updatedIncomeId || [];
   }
 
-  async deleteIncome() {
-    console.log("deleteIncome");
-    const deletedIncomeId = await Promise.resolve(mockDocument[0]._id);
+  async deleteIncome({ incomeId }) {
+    const deletedIncomeId = await this.mongoose.delete(this.model, incomeId);
     return deletedIncomeId || [];
   }
 }

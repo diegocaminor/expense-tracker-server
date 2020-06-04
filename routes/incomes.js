@@ -1,4 +1,5 @@
 const express = require("express");
+var ObjectId = require("mongoose").Types.ObjectId;
 const IncomesService = require("../services/incomes");
 
 // Routes that are responsible for communicating with the incomes services
@@ -22,6 +23,7 @@ function incomesApi(app) {
   router.get("/:incomeId", async function (req, res, next) {
     try {
       const { incomeId } = req.params;
+      if (!ObjectId.isValid(incomeId)) throw new Error("Invalid id");
       const income = await incomesService.getIncome({ incomeId });
       res.status(200).json({
         data: income,

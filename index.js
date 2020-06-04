@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const expensesApi = require("./routes/expenses");
 const categoriesApi = require("./routes/categories");
 const incomesApi = require("./routes/incomes");
+const usersApi = require("./routes/users");
 
 // Environment Variables
 const { config } = require("./config/index");
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 expensesApi(app);
 categoriesApi(app);
 incomesApi(app);
+usersApi(app);
 
 // Error Middlewares
 const {

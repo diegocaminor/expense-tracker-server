@@ -1,14 +1,14 @@
 const UserModel = require("../models/user");
 const MongoLib = require("../lib/mongo");
 const bcrypt = require("bcrypt");
+const chalk = require("chalk");
 
 class UsersService {
   constructor() {
     (this.model = UserModel), (this.mongoose = new MongoLib());
   }
 
-  async getUsers() {
-    const query = {};
+  async getUsers({ query }) {
     const users = await this.mongoose.getAll(this.model, query);
     return users || [];
   }

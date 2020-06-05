@@ -10,7 +10,7 @@ function usersApi(app) {
 
   router.get("/", async function (req, res, next) {
     try {
-      const users = await usersService.getUsers();
+      const users = await usersService.getUsers({});
       res.status(200).json({
         data: users,
         message: "users listed",

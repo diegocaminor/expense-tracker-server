@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require("body-parser");
 
 // Import routes
+const authApi = require("./routes/auth");
 const expensesApi = require("./routes/expenses");
 const categoriesApi = require("./routes/categories");
 const incomesApi = require("./routes/incomes");
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 
 // Routes
+authApi(app);
 expensesApi(app);
 categoriesApi(app);
 incomesApi(app);

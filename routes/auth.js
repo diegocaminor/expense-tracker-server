@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const Boom = require("@hapi/boom");
 const jwt = require("jsonwebtoken");
+const UsersService = require("../services/users");
 const chalk = require("chalk");
 
 const { config } = require("../config");
@@ -12,6 +13,7 @@ require("../utils/auth/strategies/basic");
 function authApi(app) {
   const router = express.Router();
   app.use("/api/auth", router);
+  const usersService = new UsersService();
 
   router.post("/sign-in", async function (req, res, next) {
     passport.authenticate("basic", function (err, user) {
@@ -38,6 +40,22 @@ function authApi(app) {
         next(err);
       }
     })(req, res, next);
+  });
+
+  router.post("/sign-up", async function (req, res, next) {
+    const { body: user } = req;
+    try {
+      const { body: user } = req;
+      const createdUserId = await usersService.createUser({
+        user,
+      });
+      res.status(201).json({
+        data: createdUserId,
+        message: "user created",
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 }
 

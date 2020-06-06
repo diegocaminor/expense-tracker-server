@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const app = express();
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
 
 // Import routes
 const authApi = require("./routes/auth");
@@ -21,6 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(morgan("dev"));
 
 // Routes
 authApi(app);

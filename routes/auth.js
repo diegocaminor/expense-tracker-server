@@ -43,7 +43,6 @@ function authApi(app) {
   });
 
   router.post("/sign-up", async function (req, res, next) {
-    const { body: user } = req;
     try {
       const { body: user } = req;
       const createdUserId = await usersService.createUser({
@@ -53,6 +52,25 @@ function authApi(app) {
         data: createdUserId,
         message: "user created",
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post("/sign-provider", async function (req, res, next) {
+    try {
+      const { body: user } = req;
+      const queriedUser = await usersService.getOrCreateUser({ user });
+      const { _id: id, userName, email } = queriedUser;
+      const payload = {
+        sub: id,
+        userName,
+        email,
+      };
+      const token = jwt.sign(payload, config.authJwtSecret, {
+        expiresIn: "60m",
+      });
+      return res.status(200).json({ token, user: { id, userName, email } });
     } catch (err) {
       next(err);
     }

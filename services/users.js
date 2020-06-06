@@ -18,6 +18,17 @@ class UsersService {
     return user || [];
   }
 
+  async getOrCreateUser({ user }) {
+    let query = { email: user.email };
+    const queriedUser = await this.getUsers({ query });
+    if (queriedUser) {
+      return queriedUser;
+    }
+    await this.createUser({ user });
+    query = { email: user.email };
+    return await this.getUsers({ query });
+  }
+
   async createUser({ user }) {
     const { password } = user;
     const hashedPassword = await bcrypt.hash(password, 10);

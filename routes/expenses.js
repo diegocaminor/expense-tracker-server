@@ -15,7 +15,7 @@ function expensesApi(app) {
 
   router.get(
     "/",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const expenses = await expensesService.getExpenses();
@@ -31,7 +31,7 @@ function expensesApi(app) {
 
   router.get(
     "/:expenseId",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { expenseId } = req.params;
@@ -49,7 +49,7 @@ function expensesApi(app) {
 
   router.post(
     "/",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { body: expense } = req;
@@ -68,7 +68,7 @@ function expensesApi(app) {
 
   router.put(
     "/:expenseId",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { expenseId } = req.params;
@@ -89,7 +89,7 @@ function expensesApi(app) {
 
   router.delete(
     "/:expenseId",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { expenseId } = req.params;

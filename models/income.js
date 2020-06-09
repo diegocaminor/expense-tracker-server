@@ -5,7 +5,10 @@ const Schema = mongoose.Schema;
 let incomeSchema = new Schema({
   userId: { type: Schema.ObjectId, ref: "User" },
   amount: Number,
-  category: { type: Schema.ObjectId, ref: "Category" },
+  category: {
+    categoryId: { type: Schema.ObjectId, ref: "Category" },
+    name: { type: String },
+  },
   notes: String,
   createdAt: { type: Date, default: Date.now },
 });

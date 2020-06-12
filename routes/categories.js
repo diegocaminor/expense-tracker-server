@@ -14,9 +14,18 @@ function categoriesApi(app) {
 
   router.get(
     "/:type",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
-      const query = { type: req.params.type };
+      const { id: userId } = req.cookies;
+      console.log(req.params.type);
+      console.log(userId);
+      const query = {
+        $and: [
+          { type: req.params.type },
+          { $or: [{ userId: ObjectId(userId) }, { visibility: "all" }] },
+        ],
+      };
+
       try {
         const categories = await categoriesService.getCategories({ query });
         res.status(200).json({
@@ -31,7 +40,7 @@ function categoriesApi(app) {
 
   router.get(
     "/:categoryId",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { categoryId } = req.params;
@@ -49,7 +58,7 @@ function categoriesApi(app) {
 
   router.post(
     "/",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { body: category } = req;
@@ -68,7 +77,7 @@ function categoriesApi(app) {
 
   router.put(
     "/:categoryId",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { categoryId } = req.params;
@@ -89,7 +98,7 @@ function categoriesApi(app) {
 
   router.delete(
     "/:categoryId",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { categoryId } = req.params;

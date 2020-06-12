@@ -17,9 +17,9 @@ function incomesApi(app) {
     passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
-        console.log("incomes");
-        console.log(req.cookies);
-        const incomes = await incomesService.getIncomes();
+        const { id: userId } = req.cookies;
+        const query = { userId: ObjectId(userId) };
+        const incomes = await incomesService.getIncomes({ query });
         res.status(200).json({
           data: incomes,
           message: "incomes listed",

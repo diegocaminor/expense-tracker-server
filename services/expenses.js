@@ -6,8 +6,7 @@ class ExpensesService {
     (this.model = ExpenseModel), (this.mongoose = new MongoLib());
   }
 
-  async getExpenses() {
-    const query = {};
+  async getExpenses({ query }) {
     const expenses = await this.mongoose.getAll(this.model, query);
     return expenses || [];
   }

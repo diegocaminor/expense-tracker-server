@@ -6,8 +6,7 @@ class IncomesService {
     (this.model = IncomeModel), (this.mongoose = new MongoLib());
   }
 
-  async getIncomes() {
-    const query = {};
+  async getIncomes({ query }) {
     const incomes = await this.mongoose.getAll(this.model, query);
     return incomes || [];
   }

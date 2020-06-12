@@ -7,11 +7,11 @@ const chalk = require("chalk");
 const UsersService = require("../../../services/users");
 
 passport.use(
-  new BasicStrategy(async function (email, password, next) {
+  new BasicStrategy(async function (userName, password, next) {
     const usersService = new UsersService();
 
     try {
-      const query = { email };
+      const query = { userName };
       const user = await usersService.getUsers({ query });
 
       if (!user) {

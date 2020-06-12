@@ -7,6 +7,9 @@ const chalk = require("chalk");
 
 const { config } = require("../config");
 
+const THIRTY_DAYS_IN_MS = 2592000; // 30 days in milliseconds
+const TWO_HOURS_IN_MS = 7200000; // 2 hours in milliseconds
+
 // Basic strategy
 require("../utils/auth/strategies/basic");
 
@@ -16,6 +19,7 @@ function authApi(app) {
   const usersService = new UsersService();
 
   router.post("/sign-in", async function (req, res, next) {
+    const { rememberMe } = req.body;
     passport.authenticate("basic", function (err, user) {
       try {
         if (err || !user) {
@@ -34,6 +38,13 @@ function authApi(app) {
           const token = jwt.sign(payload, config.authJwtSecret, {
             expiresIn: "60m",
           });
+          // if rememberMe is true, then the token will expire in 30 days
+          res.cookie("token", token, {
+            httpOnly: !config.dev,
+            secure: !config.dev,
+            maxAge: rememberMe ? THIRTY_DAYS_IN_MS : TWO_HOURS_IN_MS,
+          });
+
           return res.status(200).json({ token, user: { id, userName, email } });
         });
       } catch (err) {

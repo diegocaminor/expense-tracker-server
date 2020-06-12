@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 // Defining schema of 'Categories' collection
 let categorySchema = new Schema({
+  userId: { type: Schema.ObjectId, ref: "User" },
   name: { type: String, unique: true },
   type: { type: String, enum: ["income", "expense"] },
   createdAt: { type: Date, default: Date.now },

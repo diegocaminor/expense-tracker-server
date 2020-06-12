@@ -14,7 +14,9 @@ passport.use(
     async function (tokenPayload, next) {
       const usersService = new UsersService();
       try {
-        const user = await usersService.getUser({ email: tokenPayload.email });
+        const user = await usersService.getUser({
+          userName: tokenPayload.userName,
+        });
         if (!user) {
           return next(Boom.unauthorized(), false);
         }

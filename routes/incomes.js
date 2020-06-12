@@ -14,9 +14,11 @@ function incomesApi(app) {
 
   router.get(
     "/",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
+        console.log("incomes");
+        console.log(req.cookies);
         const incomes = await incomesService.getIncomes();
         res.status(200).json({
           data: incomes,
@@ -30,7 +32,7 @@ function incomesApi(app) {
 
   router.get(
     "/:incomeId",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { incomeId } = req.params;
@@ -48,7 +50,7 @@ function incomesApi(app) {
 
   router.post(
     "/",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { body: income } = req;
@@ -67,7 +69,7 @@ function incomesApi(app) {
 
   router.put(
     "/:incomeId",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { incomeId } = req.params;
@@ -88,7 +90,7 @@ function incomesApi(app) {
 
   router.delete(
     "/:incomeId",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { incomeId } = req.params;

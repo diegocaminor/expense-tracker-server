@@ -13,11 +13,12 @@ function categoriesApi(app) {
   const categoriesService = new CategoriesService();
 
   router.get(
-    "/",
-    passport.authenticate("jwt", { session: false }),
+    "/:type",
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
+      const query = { type: req.params.type };
       try {
-        const categories = await categoriesService.getCategories();
+        const categories = await categoriesService.getCategories({ query });
         res.status(200).json({
           data: categories,
           message: "categories listed",
@@ -30,7 +31,7 @@ function categoriesApi(app) {
 
   router.get(
     "/:categoryId",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { categoryId } = req.params;
@@ -48,7 +49,7 @@ function categoriesApi(app) {
 
   router.post(
     "/",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { body: category } = req;
@@ -67,7 +68,7 @@ function categoriesApi(app) {
 
   router.put(
     "/:categoryId",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { categoryId } = req.params;
@@ -88,7 +89,7 @@ function categoriesApi(app) {
 
   router.delete(
     "/:categoryId",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
         const { categoryId } = req.params;

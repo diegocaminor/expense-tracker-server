@@ -6,8 +6,7 @@ class CategoriesService {
     (this.model = CategoryModel), (this.mongoose = new MongoLib());
   }
 
-  async getCategories() {
-    const query = {};
+  async getCategories({ query }) {
     const categories = await this.mongoose.getAll(this.model, query);
     return categories || [];
   }
@@ -18,7 +17,7 @@ class CategoriesService {
   }
 
   async createCategory({ category }) {
-    if (!category.name) category.name = category.name.toLowerCase();
+    if (category.name) category.name = category.name.toLowerCase();
     const createdCategoryId = await this.mongoose.create(this.model, category);
     return createdCategoryId || [];
   }

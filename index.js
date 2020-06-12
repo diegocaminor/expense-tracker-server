@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const app = express();
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 // Import routes
 const authApi = require("./routes/auth");
@@ -18,7 +19,8 @@ const notFoundHandler = require("./utils/middleware/notFoundHandler.js");
 const { config } = require("./config/index");
 
 // Middlewares
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ credentials: true, origin: config.clientUrl }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());

@@ -13,7 +13,7 @@ function incomesApi(app) {
   const incomesService = new IncomesService();
 
   router.get(
-    "/",
+    "/:queryFilter?/:queryDate?",
     passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {

@@ -14,13 +14,17 @@ function expensesApi(app) {
   const expensesService = new ExpensesService();
 
   router.get(
-    "/",
+    "/:queryFilter?/:queryDate?",
     passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
+        const { queryFilter, queryDate } = req.params; // TODO: research why queryFilter arrives as string
         const { id: userId } = req.cookies;
-        const query = { userId: ObjectId(userId) };
-        const expenses = await expensesService.getExpenses({ query });
+        const expenses = await expensesService.getExpenses(
+          userId,
+          queryFilter,
+          queryDate
+        );
         res.status(200).json({
           data: expenses,
           message: "expenses listed",

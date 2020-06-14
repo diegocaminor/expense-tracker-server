@@ -18,13 +18,7 @@ function expensesApi(app) {
     passport.authenticate("jwt", { session: false }),
     async function (req, res, next) {
       try {
-        const { queryFilter, queryDate } = req.params; // TODO: research why queryFilter arrives as string
-        const { id: userId } = req.cookies;
-        const expenses = await expensesService.getExpenses(
-          userId,
-          queryFilter,
-          queryDate
-        );
+        const expenses = await expensesService.getExpenses(req);
         res.status(200).json({
           data: expenses,
           message: "expenses listed",

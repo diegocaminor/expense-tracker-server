@@ -7,7 +7,11 @@ class ExpensesService {
     (this.model = ExpenseModel), (this.mongoose = new MongoLib());
   }
 
-  async getExpenses(userId, queryFilter, queryDate) {
+  async getExpenses(req) {
+    const { queryFilter, queryDate } = req.params; // TODO: research why queryFilter arrives as string
+    const { id: userId } = req.cookies;
+
+    const isPieChart = req.query["isPieChart"];
     let isAggregate;
     let query;
     if (
@@ -54,20 +58,29 @@ class ExpensesService {
           });
           query.push({ $sort: { createdAt: 1 } });
           break;
-        // Get expenses piechart data
-        case "piechart":
-          query.push({ $match: { userId: ObjectId(userId) } });
-          query.push({
-            $group: { _id: "$category.name", totalAmount: { $sum: "$amount" } },
-          });
-          break;
         default:
           throw new Error("Invalid filter");
       }
+    } else if (isPieChart) {
+      isAggregate = true;
+      query = [];
+      query.push({
+        $match: { userId: ObjectId(userId) },
+      });
     } else {
       // List of expenses per user
       isAggregate = false;
       query = { userId: ObjectId(userId) };
+    }
+
+    // query aggregation for pie chart
+    if (isPieChart == "true") {
+      query.push({
+        $group: {
+          _id: "$category.name",
+          totalAmount: { $sum: "$amount" },
+        },
+      });
     }
 
     const expenses = await this.mongoose.getAll(this.model, query, isAggregate);

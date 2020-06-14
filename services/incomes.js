@@ -7,7 +7,10 @@ class IncomesService {
     (this.model = IncomeModel), (this.mongoose = new MongoLib());
   }
 
-  async getIncomes(userId, queryFilter, queryDate) {
+  async getIncomes(req) {
+    const { queryFilter, queryDate } = req.params; // TODO: research why queryFilter arrives as string
+    const { id: userId } = req.cookies;
+
     let isAggregate;
     let query;
     if (

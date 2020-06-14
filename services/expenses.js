@@ -1,7 +1,7 @@
 const ExpenseModel = require("../models/expense");
 const MongoLib = require("../lib/mongo");
 var ObjectId = require("mongoose").Types.ObjectId;
-const chalk = require("chalk");
+
 class ExpensesService {
   constructor() {
     (this.model = ExpenseModel), (this.mongoose = new MongoLib());
@@ -27,8 +27,6 @@ class ExpensesService {
             },
           });
           query.push({ $sort: { createdAt: 1 } });
-          console.log(chalk.cyanBright("day query"));
-          console.log(query);
           break;
         // List of expenses per user filtered per month and year
         case "month":

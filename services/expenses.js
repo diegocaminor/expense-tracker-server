@@ -48,11 +48,18 @@ class ExpensesService {
           query.push({ $addFields: { year: { $year: "$createdAt" } } });
           query.push({
             $match: {
-              userId: ObjectId("5ed9f0c97745d7515f0910b0"),
+              userId: ObjectId(userId),
               year: parseInt(queryDate),
             },
           });
           query.push({ $sort: { createdAt: 1 } });
+          break;
+        // Get expenses piechart data
+        case "piechart":
+          query.push({ $match: { userId: ObjectId(userId) } });
+          query.push({
+            $group: { _id: "$category.name", totalAmount: { $sum: "$amount" } },
+          });
           break;
         default:
           throw new Error("Invalid filter");

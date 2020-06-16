@@ -1,6 +1,6 @@
 # :ledger: expense-tracker-server
 
-Api server for https://expense-tracker-client.netlify.app/
+Api server https://api-server-expense-tracker.herokuapp.com/api for https://expense-tracker-client.netlify.app/
 
 ### 🛠️ Technologies
 
